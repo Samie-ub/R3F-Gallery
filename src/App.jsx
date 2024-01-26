@@ -1,19 +1,45 @@
 import { Suspense, useRef, useState } from "react";
-import * as THREE from 'three'
+import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import {  Scroll, ScrollControls, useScroll,Image as ImageImpl, Preload } from "@react-three/drei";
-import { image1,image2, image3,image4,image5,image6,image7, image8 ,image9} from "./content/content";
+import {
+  Scroll,
+  ScrollControls,
+  useScroll,
+  Image as ImageImpl,
+  Preload,
+} from "@react-three/drei";
+import {
+  image1,
+  image10,
+  image2,
+  image3,
+  image4,
+  image5,
+  image6,
+  image7,
+  image8,
+  image9,
+} from "./content/content";
 import "./App.css";
 
 function Image({ c = new THREE.Color(), ...props }) {
-  const ref = useRef()
-  const [hovered, hover] = useState(false)
+  const ref = useRef();
+  const [hovered, hover] = useState(false);
   useFrame(() => {
-    ref.current.material.color.lerp(c.set(hovered ? 'white' : '#ccc'), hovered ? 0.4 : 0.05)
-  })
-  return <ImageImpl ref={ref} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)} {...props} />
+    ref.current.material.color.lerp(
+      c.set(hovered ? "white" : "#ccc"),
+      hovered ? 0.4 : 0.05
+    );
+  });
+  return (
+    <ImageImpl
+      ref={ref}
+      onPointerOver={() => hover(true)}
+      onPointerOut={() => hover(false)}
+      {...props}
+    />
+  );
 }
-
 
 function Images() {
   const { height, width } = useThree((state) => state.viewport);
@@ -22,15 +48,23 @@ function Images() {
 
   useFrame(() => {
     group.current.children[0].material.zoom = 1 + data.range(0, 1 / 3) / 3;
-    group.current.children[1].material.zoom = 1 + data.range(0, 1 / 3) / 3
-    group.current.children[2].material.zoom = 1 + data.range(1.15 / 3, 1 / 3) / 3
-    group.current.children[3].material.zoom = 1 + data.range(1.15 / 3, 1 / 3) / 2
-    group.current.children[4].material.zoom = 1 + data.range(1.25 / 3, 1 / 3) / 1
-    group.current.children[5].material.zoom = 1 + data.range(1.8 / 3, 1 / 3) / 3
-    group.current.children[8].material.zoom = 1 + data.range(1.15 / 3, 1 / 3) / 3
-    group.current.children[6].material.zoom = 1 + (1 - data.range(2 / 3, 1 / 3)) / 3
-    group.current.children[7].material.zoom = 1 + (1 - data.range(2 / 3, 1 / 3)) / 3
-
+    group.current.children[1].material.zoom = 1 + data.range(0, 1 / 3) / 3;
+    group.current.children[2].material.zoom =
+      1 + data.range(1.15 / 3, 1 / 3) / 3;
+    group.current.children[3].material.zoom =
+      1 + data.range(1.15 / 3, 1 / 3) / 2;
+    group.current.children[4].material.zoom =
+      1 + data.range(1.25 / 3, 1 / 3) / 1;
+    group.current.children[5].material.zoom =
+      1 + data.range(1.8 / 3, 1 / 3) / 3;
+    group.current.children[6].material.zoom =
+      1 + (1 - data.range(2 / 3, 1 / 3)) / 3;
+    group.current.children[7].material.zoom =
+      1 + (1 - data.range(2 / 3, 1 / 3)) / 3;
+    group.current.children[8].material.zoom =
+      1 + data.range(1.15 / 3, 1 / 3) / 3;
+    group.current.children[9].material.zoom =
+      1 + data.range(1.15 / 3, 1 / 3) / 3;
   });
 
   return (
@@ -40,10 +74,31 @@ function Images() {
       <Image position={[-3, -height, 2]} scale={[2, 3, 1]} url={image3} />
       <Image position={[-0.6, -height, 3]} scale={[1, 2, 1]} url={image4} />
       <Image position={[0.75, -height, 3.5]} scale={1.5} url={image5} />
-      <Image position={[0, -height * 1.5, 2.5]} scale={[1.5, 3, 1]} url={image6} />
-      <Image position={[0, -height * 2 - height / 4, 0]} scale={[width, height / 2, 1]} url={image7}/>
-      <Image position={[-5, -height * 2.7 - height / 3, 0]} scale={[5, height, 1]} url={image8}/>
-      <Image position={[-4, -height * 3 - height, 2]} scale={[1, 2, 1]} url={image9}/>
+      <Image
+        position={[0, -height * 1.5, 2.5]}
+        scale={[1.5, 3, 1]}
+        url={image6}
+      />
+      <Image
+        position={[0, -height * 2 - height / 4, 0]}
+        scale={[width, height / 2, 1]}
+        url={image7}
+      />
+      <Image
+        position={[-5, -height * 2.7 - height / 3, 0]}
+        scale={[5, height, 1]}
+        url={image8}
+      />
+      <Image
+        position={[-2, -height * 3 - height, 2]}
+        scale={[3, 3, 1]}
+        url={image9}
+      />
+      <Image
+        position={[1.5, -height * 3 - height, 2]}
+        scale={[3, 3, 1]}
+        url={image10}
+      />
     </group>
   );
 }
@@ -53,7 +108,7 @@ function App() {
     <>
       <Canvas gl={{ antialias: false }} dpr={[1, 1.5]}>
         <Suspense fallback={null}>
-          <ScrollControls damping={1} pages={5}>
+          <ScrollControls damping={2} pages={5}>
             <Scroll>
               <Images />
             </Scroll>
@@ -72,7 +127,7 @@ function App() {
                   fontSize: "20vw",
                 }}
               >
-               Creative
+                Creative
               </h1>
               <h1
                 style={{
@@ -82,11 +137,11 @@ function App() {
                   fontSize: "10vw",
                 }}
               >
-               And
+                And Flawless
               </h1>
             </Scroll>
           </ScrollControls>
-          <Preload/>
+          <Preload />
         </Suspense>
       </Canvas>
     </>
